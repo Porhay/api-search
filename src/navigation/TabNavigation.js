@@ -1,27 +1,27 @@
 import React, {Component} from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faBook, faChild } from '@fortawesome/free-solid-svg-icons'
+import { faCocktail, faChild } from '@fortawesome/free-solid-svg-icons'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Identity from "../components/identity"
-import Books from "../components/books"
+import Cocktails from "../components/cocktails"
 
 
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator();
 
 
-const topBarOptionsBooks = () => {
+const topBarOptionsCocktails = () => {
     return (
-        <Stack.Navigator initialRouteName="Books">
+        <Stack.Navigator initialRouteName="Cocktails">
             <Stack.Screen
-                name="Books"
-                component={Books}
-                options={{ title: 'Books' }}
+                name="Cocktails"
+                component={Cocktails}
+                options={{ title: 'Cocktails' }}
             />
         </Stack.Navigator>
     )
@@ -62,9 +62,9 @@ export default class TabNavigation extends Component {
                     />
 
                     <Tab.Screen 
-                        name="Books" 
-                        component={topBarOptionsBooks}
-                        options={bottomBarOptions('Books', faBook)}
+                        name="Cocktails"
+                        component={topBarOptionsCocktails}
+                        options={bottomBarOptions('Cocktails', faCocktail)}
                     />
 
                 </Tab.Navigator>

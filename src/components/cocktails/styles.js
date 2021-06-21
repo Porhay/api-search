@@ -41,6 +41,7 @@ export default StyleSheet.create({
 
     detailsBackButton: {
         fontSize: 40,
+        fontWeight:'800'
     },
 
     loading: {
@@ -72,4 +73,22 @@ export default StyleSheet.create({
         height: 340,
 
     },
+
+    newItemImputView: {
+        flexDirection: 'row',
+        
+    },
+
+    newItemImput: {
+        flex: 8, 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        paddingTop: 10,
+        
+    },
+
+    newItemButton: {
+        marginTop: 10,
+        marginHorizontal: 8
+    }
 })
