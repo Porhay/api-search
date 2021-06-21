@@ -1,0 +1,75 @@
+import { StyleSheet, Dimensions } from "react-native"
+
+const colorScheme = {
+    bg: 'white',
+    color: 'black'
+}
+
+export default StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colorScheme.bg,        
+    },
+    
+    item: {
+        flex: 2,
+        padding: 20,
+        backgroundColor: colorScheme.bg,
+        flexDirection: 'row',
+    },
+
+    title: {
+        fontSize: 28,
+    },
+
+    image: {
+        width: 100,
+        height: 170,
+        
+    },
+
+    generalInfo: {
+        flex: 10,
+        marginHorizontal: 10,
+        paddingTop: 15,
+    },
+
+    additionalInfo: {
+        marginTop: 6,
+        fontSize: 16,
+    },
+
+    detailsBackButton: {
+        fontSize: 40,
+    },
+
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colorScheme.bg,
+        color: colorScheme.color
+    },
+    
+    scrollViewScreen: {
+        paddingHorizontal: 13,
+        paddingTop: 10,
+        paddingBottom: 60,
+        backgroundColor: colorScheme.bg
+        
+    },
+
+    detailsImageSection: {
+        alignItems: 'center',
+    },
+
+    detailsImage: {
+        width: 250,
+        height: 340,
+
+    },
+})
