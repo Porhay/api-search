@@ -16,12 +16,14 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 // strDrinkThumb   =   https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg
 // strCategory  =  Ordinary Drink
 
+
 const Item = ({ title, image, category }) => (
     
     <View style={styles.item}>
             <Image
                 style={styles.image}
-                source={{ uri: image }}
+                // source={{ uri: image }}
+                source={image === 'null' ? require('../../../assets/no-poster.jpg') : { uri: image }}
             />
 
         <View style={styles.generalInfo}>
@@ -38,6 +40,7 @@ export default class Cocktails extends Component {
         super(props);
         this.state = {
             cocktails: [],
+            updatedCocktailsList: [],
             search: "",
             isLoading: false,
             isOpenDetails: false,
@@ -111,27 +114,34 @@ export default class Cocktails extends Component {
     }
 
     openDetails = (idDrink) => {
-        this.setState({ isLoading: true });
+        this.setState({ isLoading: true })
         axios
             .get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idDrink}`)
             .then((res) => {
-                const Details = res.data.drinks[0];
+                const details = res.data.drinks[0];
                 this.setState({
-                    currentCocktail: Details,
+                    currentCocktail: details,
                     isLoading: false,
-                });
-            });
+                })
+            })
+        
     };
 
     newItem = () => {
-        console.log(this.state.newCocktailName)
-        console.log(this.state.newCocktailCategory)
+        this.setState({ isOpenNewItem: false })
 
+        const newElement = {
+            idDrink: this.state.newCocktailName,
+            strDrink: this.state.newCocktailName,
+            strCategory: this.state.newCocktailCategory,
+            strDrinkThumb: 'null'
+        }
         
+        this.setState({ cocktails: [...this.state.cocktails, newElement] })   
     }
 
     render() {
-        const { isOpenDetails, isOpenNewItem, isLoading, currentCocktail: currentCocktail, search } = this.state;
+        const { isOpenDetails, isOpenNewItem, isLoading, currentCocktail, search } = this.state;
         
         return (
             <SafeAreaView style={styles.container}>
@@ -157,7 +167,8 @@ export default class Cocktails extends Component {
                                         <View style={styles.detailsImageSection}>
                                             <Image
                                                 style={styles.detailsImage}
-                                                source={{ uri: currentCocktail.strDrinkThumb }}
+                                                source={currentCocktail.strDrinkThumb === 'null' ? require('../../../assets/no-poster.jpg') : { uri: currentCocktail.strDrinkThumb }}
+
                                             />
                                         </View>
 
