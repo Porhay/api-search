@@ -127,12 +127,12 @@ export default class Cocktails extends Component {
                 console.log(err)
                 this.setState({
                     currentCocktail: {
-                        idDrink: this.state.newCocktailName,
+                        idDrink: this.state.newCocktailName + Math.random().toString(12).substring(0),
                         strDrink: this.state.newCocktailName,
                         strCategory: this.state.newCocktailCategory,
                         strDrinkThumb: 'null',
                     },
-                    
+
                     isLoading: false,
                 })
             })
@@ -143,7 +143,7 @@ export default class Cocktails extends Component {
         this.setState({ isOpenNewItem: false })
 
         const newElement = {
-            idDrink: this.state.newCocktailName,
+            idDrink: this.state.newCocktailName + Math.random().toString(12).substring(0),
             strDrink: this.state.newCocktailName,
             strCategory: this.state.newCocktailCategory,
             strDrinkThumb: 'null',
@@ -286,13 +286,15 @@ export default class Cocktails extends Component {
                                 
                             </View>
 
-
-                            <FlatList
-                                data={this.state.cocktails}
-                                renderItem={this.renderItem}
-                                keyExtractor={item => item.idDrink}
-                                ItemSeparatorComponent={this.renderSeparator}
-                            />
+                                <View style={{ marginBottom: '34%' }}>
+                                {/* style={{marginBottom: '40%'}} */}
+                                <FlatList
+                                    data={this.state.cocktails}
+                                    renderItem={this.renderItem}
+                                    keyExtractor={item => item.idDrink}
+                                    ItemSeparatorComponent={this.renderSeparator}
+                                />
+                            </View>
                         </View>
 
                 }
