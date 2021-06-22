@@ -90,5 +90,19 @@ export default StyleSheet.create({
     newItemButton: {
         marginTop: 10,
         marginHorizontal: 8
-    }
+    },
+
+    
+    rightAction: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'red',
+
+    },
+
+    actionText: {
+        color: '#fff',
+        padding: 20,
+        textAlign: 'right'
+    },
 })

@@ -5,6 +5,7 @@ import axios from "axios";
 import { SearchBar, Input, Button } from "react-native-elements";
 import { faAngleLeft, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 
 // `www.thecocktaildb.com/api/json/v1/1/search.php?s=${query}`
@@ -56,14 +57,22 @@ export default class Cocktails extends Component {
             }
             
         }>
-            <Item 
-                title={item.strDrink} image={item.strDrinkThumb}
-                category={item.strCategory} price={item.price}
-                idDrink={item.idDrink} />
+            <Swipeable
+                renderRightActions={this.rightActions}
+                onSwipeableRightOpen={() => {                  
+                    const itemToDelete = this.state.cocktails.findIndex(elem => elem.idDrink === item.idDrink)
+                    const cocktailsFromState = this.state.cocktails
+                    const updatedCocktails = cocktailsFromState.splice(itemToDelete, 1)
+                    this.setState(updatedCocktails)
+                }}
+            >
+                <Item 
+                    title={item.strDrink} image={item.strDrinkThumb}
+                    category={item.strCategory} price={item.price}
+                    idDrink={item.idDrink} />
+            </Swipeable>
         </TouchableOpacity>
     );
-
-
 
     renderSeparator = () => {
         return (
@@ -93,6 +102,13 @@ export default class Cocktails extends Component {
         this.setState({ search });
     }
 
+    rightActions = () => {
+        return (
+            <View style={styles.rightAction}>
+                <Text style={styles.actionText}>Delete</Text>
+            </View>
+        )
+    }
 
     openDetails = (idDrink) => {
         this.setState({ isLoading: true });
@@ -115,7 +131,7 @@ export default class Cocktails extends Component {
     }
 
     render() {
-        const { isOpenDetails, newCocktailName, newCocktailCategory, isOpenNewItem, isLoading, currentCocktail: currentCocktail, search } = this.state;
+        const { isOpenDetails, isOpenNewItem, isLoading, currentCocktail: currentCocktail, search } = this.state;
         
         return (
             <SafeAreaView style={styles.container}>
