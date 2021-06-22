@@ -123,6 +123,18 @@ export default class Cocktails extends Component {
                     currentCocktail: details,
                     isLoading: false,
                 })
+            }).catch((err) => {
+                console.log(err)
+                this.setState({
+                    currentCocktail: {
+                        idDrink: this.state.newCocktailName,
+                        strDrink: this.state.newCocktailName,
+                        strCategory: this.state.newCocktailCategory,
+                        strDrinkThumb: 'null',
+                    },
+                    
+                    isLoading: false,
+                })
             })
         
     };
@@ -134,7 +146,7 @@ export default class Cocktails extends Component {
             idDrink: this.state.newCocktailName,
             strDrink: this.state.newCocktailName,
             strCategory: this.state.newCocktailCategory,
-            strDrinkThumb: 'null'
+            strDrinkThumb: 'null',
         }
         
         this.setState({ cocktails: [...this.state.cocktails, newElement] })   
