@@ -8,8 +8,7 @@ export default class Identity extends Component {
         return(
             <View style={styles.container}>
                 <Text style={styles.textIdentity}>
-                    Cocktails Search             
-                    
+                    API Search React Native Expo App
                 </Text>
             </View>
         )

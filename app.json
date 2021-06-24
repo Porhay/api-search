@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "async-storage",
-    "slug": "async-storage",
-    "version": "1.0.0",
+    "name": "api-search",
+    "slug": "api-search",
+    "version": "1.0.1",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "splash": {
