@@ -2,17 +2,17 @@
 
 ### Installation
 
-api-search requires [Node.js](https://nodejs.org/) v4+ to run.
+Requires [Node.js](https://nodejs.org/) v4+ to run.
 
 Install the dependencies and start the server.
 
 ```sh
-$ npm install
-$ expo start
+$ npm run major
 ```
 or
 ```sh
-$ npm run major
+$ npm install
+$ expo start
 ```
 
 ### License

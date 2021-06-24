@@ -7,6 +7,8 @@ import { faAngleLeft, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
+import { AntDesign } from '@expo/vector-icons'
+
 
 // `www.thecocktaildb.com/api/json/v1/1/search.php?s=${query}`
 // www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita
@@ -44,12 +46,16 @@ export default class Cocktails extends Component {
             search: "",
             isLoading: false,
             isOpenDetails: false,
-            currentCocktail: "",
             isOpenNewItem: false,
+            isOpenApiSelector: false,
+            currentCocktail: "",
             newCocktailName: "",
             newCocktailCategory: ""
         }
+    }
 
+    apiSearchPicker = () => {
+        this.setState({ isOpenApiSelector: true})
     }
 
     renderItem = ({ item }) => (
@@ -153,7 +159,7 @@ export default class Cocktails extends Component {
     }
 
     render() {
-        const { isOpenDetails, isOpenNewItem, isLoading, currentCocktail, search } = this.state;
+        const { isOpenApiSelector, isOpenDetails, isOpenNewItem, isLoading, currentCocktail, search } = this.state;
         
         return (
             <SafeAreaView style={styles.container}>
@@ -210,9 +216,27 @@ export default class Cocktails extends Component {
 
                             </View> :
 
-                        isOpenNewItem ? 
-                        <View>
-                            <TouchableOpacity onPress={() => {
+                        isOpenApiSelector ?
+                            <View>
+                                <TouchableOpacity onPress={() => {
+                                    this.setState({ isOpenApiSelector: false });
+                                }}>
+                                    <View>
+                                        <Text style={styles.detailsBackButton}>
+                                            <FontAwesomeIcon icon={faAngleLeft} size={40} color={'black'} />
+                                            Back
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+
+                                {/* multiple choice picker react native */}
+
+                            </View> :
+
+
+                        isOpenNewItem ?
+                            <View>
+                                <TouchableOpacity onPress={() => {
                                     this.setState({ isOpenNewItem: false });
                                 }}>
                                     <View>
@@ -223,9 +247,9 @@ export default class Cocktails extends Component {
                                     </View>
                                 </TouchableOpacity>
 
-                                <View style={{marginTop: 20, marginHorizontal: 10}}>
-                                    
-                                    <View style={styles.newItemImputView}> 
+                                <View style={{ marginTop: 20, marginHorizontal: 10 }}>
+
+                                    <View style={styles.newItemImputView}>
                                         <View style={styles.newItemImput}>
                                             <Input
                                                 label='Cocktail Name'
@@ -233,7 +257,7 @@ export default class Cocktails extends Component {
                                                 onChangeText={value => this.setState({ newCocktailName: value })}
                                             />
                                         </View>
-                                        
+
                                     </View>
 
                                     <View style={styles.newItemImputView}>
@@ -244,7 +268,7 @@ export default class Cocktails extends Component {
                                                 onChangeText={value => this.setState({ newCocktailCategory: value })}
                                             />
                                         </View>
-                                       
+
                                     </View>
                                     <View style={styles.newItemButton}>
                                         <Button
@@ -253,49 +277,59 @@ export default class Cocktails extends Component {
                                         />
                                     </View>
                                 </View>
-                                
 
-                                
-                        </View>
-                        
-                        
-                        :
 
-                        <View>
-                            <View style={{ flexDirection: 'row'}}>
-                                {/* borderColor: '#EEE', borderWidth: 1 */}
-                                
-                                <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-                                    <TouchableOpacity onPress={() => {
-                                        this.setState({ isOpenNewItem: true })
-                                        
-                                    }}>
-                                        <FontAwesomeIcon icon={faPlusSquare} size={54} color={'green'} />
-                                    </TouchableOpacity>
-                                </View>
-                                
-                                <View style={{flex: 12}}>
-                                    <SearchBar
-                                        placeholder="Type Here..."
-                                        onChangeText={this.updateSearch}
-                                        value={search}
-                                        platform={'ios'}
 
-                                    />
-                                </View>
-                                
                             </View>
+
+
+
+                            :
+                            
+                            <View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    {/* borderColor: '#EEE', borderWidth: 1 */}
+
+                                    <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                                        <TouchableOpacity onPress={() => {
+                                            this.setState({ isOpenNewItem: true })
+
+                                        }}>
+                                            <FontAwesomeIcon icon={faPlusSquare} size={54} color={'green'} />
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    {/* temporary button */}
+                                    <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                                        <TouchableOpacity
+                                            onPress={this.apiSearchPicker}
+                                            style={{ marginRight: 12 }}
+                                        >
+                                            <AntDesign name="checksquareo" size={54} color="black" />
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    <View style={{ flex: 8 }}>
+                                        <SearchBar
+                                            placeholder="Type Here..."
+                                            onChangeText={this.updateSearch}
+                                            value={search}
+                                            platform={'ios'}
+
+                                        />
+                                    </View>
+
+                                </View>
 
                                 <View style={{ marginBottom: '34%' }}>
-                                {/* style={{marginBottom: '40%'}} */}
-                                <FlatList
-                                    data={this.state.cocktails}
-                                    renderItem={this.renderItem}
-                                    keyExtractor={item => item.idDrink}
-                                    ItemSeparatorComponent={this.renderSeparator}
-                                />
+                                    <FlatList
+                                        data={this.state.cocktails}
+                                        renderItem={this.renderItem}
+                                        keyExtractor={item => item.idDrink}
+                                        ItemSeparatorComponent={this.renderSeparator}
+                                    />
+                                </View>
                             </View>
-                        </View>
 
                 }
             </SafeAreaView>

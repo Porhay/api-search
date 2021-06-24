@@ -1,4 +1,7 @@
 import React, {Component} from 'react'
+import { TouchableOpacity } from "react-native"
+
+import { AntDesign } from '@expo/vector-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCocktail, faChild } from '@fortawesome/free-solid-svg-icons'
@@ -10,21 +13,38 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Identity from "../components/identity"
 import Cocktails from "../components/cocktails"
 
-
 const Tab = createBottomTabNavigator()
 const Stack = createStackNavigator();
 
+const test = () => {
+    console.log("test")
+}
 
-const topBarOptionsCocktails = () => {
-    return (
-        <Stack.Navigator initialRouteName="Cocktails">
-            <Stack.Screen
-                name="Cocktails"
-                component={Cocktails}
-                options={{ title: 'Cocktails' }}
-            />
-        </Stack.Navigator>
-    )
+class topBarOptionsCocktails extends Component {
+    render(){
+        return (
+            <Stack.Navigator initialRouteName="Cocktails">
+                <Stack.Screen
+                    name="Cocktails"
+                    component={Cocktails}
+
+                    options={{
+                        title: 'Cocktails',
+
+                        headerRight: () => (
+                            <TouchableOpacity
+                                onPress={() => test()}
+                                style={{ marginRight: 12 }}
+                            >
+                                <AntDesign name="checksquareo" size={24} color="black" />
+                            </TouchableOpacity>
+                        ),
+                    }}
+                />
+            </Stack.Navigator>
+        )
+    }
+    
 }
 
 const topBarOptionsIdentity = () => {
