@@ -8,13 +8,7 @@ export default class Identity extends Component {
         return(
             <View style={styles.container}>
                 <Text style={styles.textIdentity}>
-                    Кулініч Віталій
-                    {'\n'}
-                    Група ІВ-81
-                    {'\n'}
-                    ЗК ІВ-8117
-                    {'\n'}
-                    
+                    Cocktails Search             
                     
                 </Text>
             </View>

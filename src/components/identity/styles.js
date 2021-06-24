@@ -9,6 +9,8 @@ export default StyleSheet.create({
     },
 
     textIdentity: {
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: '800',
+        fontSize: 20
     }
 })
