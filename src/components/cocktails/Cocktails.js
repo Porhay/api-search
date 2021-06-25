@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { SafeAreaView, Image, ActivityIndicator, View, ScrollView, FlatList, Text, Dimensions, TouchableOpacity } from "react-native"
 import styles from "./styles";
 import axios from "axios";
-import { SearchBar, Input, Button } from "react-native-elements";
+import { SearchBar, Input, Button, CheckBox  } from "react-native-elements";
 import { faAngleLeft, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -50,7 +50,8 @@ export default class Cocktails extends Component {
             isOpenApiSelector: false,
             currentCocktail: "",
             newCocktailName: "",
-            newCocktailCategory: ""
+            newCocktailCategory: "",
+            checked: false
         }
     }
 
@@ -227,6 +228,11 @@ export default class Cocktails extends Component {
                                             Back
                                         </Text>
                                     </View>
+                                    <CheckBox
+                                        title='Click Here'
+                                        checked={this.state.checked}
+                                        onPress={() => this.setState({ checked: !this.state.checked })}
+                                    />
                                 </TouchableOpacity>
 
                                 {/* multiple choice picker react native */}
