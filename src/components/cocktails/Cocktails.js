@@ -8,7 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import { AntDesign } from '@expo/vector-icons'
+import Animated from 'react-native-reanimated';
 
+const { width, height } = Dimensions.get('window')
+
+const SPACING = 10
+const ITEM_SIZE = width * 0.72
 
 // `www.thecocktaildb.com/api/json/v1/1/search.php?s=${query}`
 // www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita
@@ -20,17 +25,18 @@ import { AntDesign } from '@expo/vector-icons'
 
 
 const Item = ({ title, image, category }) => (
-    
-    <View style={styles.item}>
-            <Image
-                style={styles.image}
-                // source={{ uri: image }}
-                source={image === 'null' ? require('../../../assets/no-poster.jpg') : { uri: image }}
-            />
+    <View style={{width: ITEM_SIZE}}>
+        <View style={styles.item}>
+                <Image
+                    style={styles.image}
+                    // source={{ uri: image }}
+                    source={image === 'null' ? require('../../../assets/no-poster.jpg') : { uri: image }}
+                />
 
-        <View style={styles.generalInfo}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.additionalInfo}>{category}</Text>
+            <View style={styles.generalInfo}>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.additionalInfo}>{category}</Text>
+            </View>
         </View>
     </View>
     
@@ -66,7 +72,7 @@ export default class Cocktails extends Component {
             }
             
         }>
-            <Swipeable
+            {/* <Swipeable
                 renderRightActions={this.rightActions}
                 onSwipeableRightOpen={() => {                  
                     const itemToDelete = this.state.cocktails.findIndex(elem => elem.idDrink === item.idDrink)
@@ -74,12 +80,12 @@ export default class Cocktails extends Component {
                     const updatedCocktails = cocktailsFromState.splice(itemToDelete, 1)
                     this.setState(updatedCocktails)
                 }}
-            >
+            > */}
                 <Item 
                     title={item.strDrink} image={item.strDrinkThumb}
                     category={item.strCategory} price={item.price}
                     idDrink={item.idDrink} />
-            </Swipeable>
+            {/* </Swipeable> */}
         </TouchableOpacity>
     );
 
@@ -161,6 +167,8 @@ export default class Cocktails extends Component {
     render() {
         const { isOpenApiSelector, isOpenDetails, isOpenNewItem, isLoading, currentCocktail, search } = this.state;
         
+        // const scrollX = React.useRef(new Animated.Value(0)).current
+
         return (
             <SafeAreaView style={styles.container}>
                 {
@@ -321,12 +329,22 @@ export default class Cocktails extends Component {
 
                                 </View>
 
-                                <View style={{ marginBottom: '34%' }}>
+                                <View>
                                     <FlatList
+                                        // onScroll={Animated.event(
+                                        //   [{nativeEvent: {contentOffset: {scrollX}}}],
+                                        //   {useNativeDriver: true}
+                                        // )}
+                                        
                                         data={this.state.cocktails}
                                         renderItem={this.renderItem}
                                         keyExtractor={item => item.idDrink}
-                                        ItemSeparatorComponent={this.renderSeparator}
+                                        horizontal
+                                        showsHorizontalScrollIndicator={false}
+                                        // ItemSeparatorComponent={this.renderSeparator}
+                                        snapToInterval={ITEM_SIZE}
+                                        decelerationRate={0}
+                                        bounces={false}
                                     />
                                 </View>
                             </View>

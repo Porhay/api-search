@@ -1,5 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native"
 
+
+
 const colorScheme = {
     bg: 'white',
     color: 'black'
@@ -7,15 +9,16 @@ const colorScheme = {
 
 export default StyleSheet.create({
     container: {
-        flex: 1,
+        
         backgroundColor: colorScheme.bg,        
     },
     
     item: {
-        flex: 2,
+        // flex: 1,
         padding: 20,
         backgroundColor: colorScheme.bg,
-        flexDirection: 'row',
+        flexDirection: 'column',
+        alignItems: 'center'
     },
 
     title: {
@@ -23,13 +26,14 @@ export default StyleSheet.create({
     },
 
     image: {
-        width: 100,
-        height: 170,
-        
+        width: 190,
+        height: 280,
+        borderRadius: 10,
     },
 
     generalInfo: {
-        flex: 10,
+        // flex: 10,
+        
         marginHorizontal: 10,
         paddingTop: 15,
     },
