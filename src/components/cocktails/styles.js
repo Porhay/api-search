@@ -13,13 +13,14 @@ export default StyleSheet.create({
         backgroundColor: colorScheme.bg,        
     },
     
-    item: {
-        // flex: 1,
-        padding: 20,
-        backgroundColor: colorScheme.bg,
-        flexDirection: 'column',
-        alignItems: 'center'
-    },
+    // item: {
+    //     // flex: 1,
+    //     padding: 20,
+    //     backgroundColor: colorScheme.bg,
+    //     flexDirection: 'column',
+    //     alignItems: 'center',
+    //     transform: [{translateY}],
+    // },
 
     title: {
         fontSize: 28,

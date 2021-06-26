@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SafeAreaView, Image, ActivityIndicator, View, ScrollView, FlatList, Text, Dimensions, TouchableOpacity } from "react-native"
+import { SafeAreaView, Animated, Image, ActivityIndicator, View, ScrollView, FlatList, Text, Dimensions, TouchableOpacity } from "react-native"
 import styles from "./styles";
 import axios from "axios";
 import { SearchBar, Input, Button } from "react-native-elements";
@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import { AntDesign } from '@expo/vector-icons'
-import Animated from 'react-native-reanimated';
 
 const { width, height } = Dimensions.get('window')
 
@@ -24,28 +23,41 @@ const ITEM_SIZE = width * 0.72
 // strCategory  =  Ordinary Drink
 
 
-const Item = ({ title, image, category }) => (
-    <View style={{width: ITEM_SIZE}}>
-        <View style={styles.item}>
+const Item = ({ title, image, category }) => {
+
+    
+
+    return (
+        <View style={{ width: ITEM_SIZE }}>
+            {/* <View style={{
+                // flex: 1,
+                padding: 20,
+                backgroundColor: colorScheme.bg,
+                flexDirection: 'column',
+                alignItems: 'center',
+                // transform: [{ translateY }],
+            }}> */}
                 <Image
                     style={styles.image}
                     // source={{ uri: image }}
                     source={image === 'null' ? require('../../../assets/no-poster.jpg') : { uri: image }}
                 />
 
-            <View style={styles.generalInfo}>
-                <Text style={styles.title}>{title}</Text>
-                <Text style={styles.additionalInfo}>{category}</Text>
-            </View>
+                <View style={styles.generalInfo}>
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.additionalInfo}>{category}</Text>
+                </View>
+            {/* </View> */}
         </View>
-    </View>
-    
-);
+
+    )
+} 
 
 export default class Cocktails extends Component {
 
     constructor(props) {
         super(props);
+        this.scrollX = new Animated.Value(0)
         this.state = {
             cocktails: [],
             updatedCocktailsList: [],
@@ -56,23 +68,37 @@ export default class Cocktails extends Component {
             isOpenApiSelector: false,
             currentCocktail: "",
             newCocktailName: "",
-            newCocktailCategory: ""
+            newCocktailCategory: "",
         }
+        
     }
 
     apiSearchPicker = () => {
         this.setState({ isOpenApiSelector: true})
     }
 
-    renderItem = ({ item }) => (
-        <TouchableOpacity onPress={
-            () => {
-                this.setState({ isOpenDetails: true })
-                this.openDetails(item.idDrink)
-            }
-            
-        }>
-            {/* <Swipeable
+    renderItem = ({ item, index }) => {
+
+        const inputRange = [
+            (index - 1) * ITEM_SIZE,
+            index * ITEM_SIZE,
+            (index + 1) * ITEM_SIZE,
+        ]
+
+        const translateY = this.scrollX.interpolate({
+            inputRange,
+            outputRange: [0, -50, 0]
+        })
+
+        return (
+            <TouchableOpacity onPress={
+                () => {
+                    this.setState({ isOpenDetails: true })
+                    this.openDetails(item.idDrink)
+                }
+
+            }>
+                {/* <Swipeable
                 renderRightActions={this.rightActions}
                 onSwipeableRightOpen={() => {                  
                     const itemToDelete = this.state.cocktails.findIndex(elem => elem.idDrink === item.idDrink)
@@ -81,13 +107,26 @@ export default class Cocktails extends Component {
                     this.setState(updatedCocktails)
                 }}
             > */}
-                <Item 
-                    title={item.strDrink} image={item.strDrinkThumb}
-                    category={item.strCategory} price={item.price}
-                    idDrink={item.idDrink} />
-            {/* </Swipeable> */}
-        </TouchableOpacity>
-    );
+
+                <Animated.View style={{
+                    // flex: 1,
+                    padding: 20,
+                    marginTop: 60,
+                    backgroundColor: 'white',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    transform: [{ translateY }],
+                }}>
+                    <Item
+                        title={item.strDrink} image={item.strDrinkThumb}
+                        category={item.strCategory} price={item.price}
+                        idDrink={item.idDrink} />
+                </Animated.View>
+                
+                {/* </Swipeable> */}
+            </TouchableOpacity>
+        )
+    } 
 
     renderSeparator = () => {
         return (
@@ -167,7 +206,7 @@ export default class Cocktails extends Component {
     render() {
         const { isOpenApiSelector, isOpenDetails, isOpenNewItem, isLoading, currentCocktail, search } = this.state;
         
-        // const scrollX = React.useRef(new Animated.Value(0)).current
+        
 
         return (
             <SafeAreaView style={styles.container}>
@@ -330,11 +369,7 @@ export default class Cocktails extends Component {
                                 </View>
 
                                 <View>
-                                    <FlatList
-                                        // onScroll={Animated.event(
-                                        //   [{nativeEvent: {contentOffset: {scrollX}}}],
-                                        //   {useNativeDriver: true}
-                                        // )}
+                                    <Animated.FlatList
                                         
                                         data={this.state.cocktails}
                                         renderItem={this.renderItem}
@@ -345,6 +380,11 @@ export default class Cocktails extends Component {
                                         snapToInterval={ITEM_SIZE}
                                         decelerationRate={0}
                                         bounces={false}
+                                        onScroll={Animated.event(
+                                          [{nativeEvent: {contentOffset: {x: this.scrollX}}}],
+                                          {useNativeDriver: true}
+                                        )}
+                                        scrollEventThrottle={16}
                                     />
                                 </View>
                             </View>
