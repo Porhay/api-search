@@ -51,7 +51,9 @@ export default class Cocktails extends Component {
             currentCocktail: "",
             newCocktailName: "",
             newCocktailCategory: "",
-            checked: false
+            cocktailsSelector: false,
+            moviesSelector: false,
+            recipesSelector: false
         }
     }
 
@@ -228,15 +230,29 @@ export default class Cocktails extends Component {
                                             Back
                                         </Text>
                                     </View>
-                                    <CheckBox
-                                        title='Click Here'
-                                        checked={this.state.checked}
-                                        onPress={() => this.setState({ checked: !this.state.checked })}
-                                    />
+                                    
                                 </TouchableOpacity>
-
                                 {/* multiple choice picker react native */}
+                                <View style={{marginTop: 10}}>
+                                    <CheckBox
+                                        title='Cocktails'
+                                        checked={this.state.cocktailsSelector}
+                                        onPress={() => this.setState({ cocktailsSelector: !this.state.cocktailsSelector })}
+                                    />
 
+                                    <CheckBox
+                                        title='Movies'
+                                        checked={this.state.moviesSelector}
+                                        onPress={() => this.setState({ moviesSelector: !this.state.moviesSelector })}
+                                    />
+
+                                    <CheckBox
+                                        title='Recipes'
+                                        checked={this.state.recipesSelector}
+                                        onPress={() => this.setState({ recipesSelector: !this.state.recipesSelector })}
+                                    />
+                                </View>
+                                
                             </View> :
 
 
