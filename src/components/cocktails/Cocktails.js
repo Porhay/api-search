@@ -51,7 +51,7 @@ export default class Cocktails extends Component {
             currentCocktail: "",
             newCocktailName: "",
             newCocktailCategory: "",
-            cocktailsSelector: false,
+            cocktailsSelector: true,
             moviesSelector: false,
             recipesSelector: false
         }
@@ -99,15 +99,19 @@ export default class Cocktails extends Component {
     };
 
     updateSearch = (search) => {
+        
         if (search.length >= 3) {
-            this.setState({ isLoading: true })
-            axios
-                .get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${search.trim()}`)
-                .then((result) => {
-                    // this.setState({ cocktails: [], isLoading: false })
-                    this.setState({ cocktails: result.data.drinks, isLoading: false })
-                })
-
+            if (this.state.cocktailsSelector) {
+                this.setState({ isLoading: true })
+                axios
+                    .get(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${search.trim()}`)
+                    .then((result) => {
+                        // this.setState({ cocktails: [], isLoading: false })
+                        this.setState({ cocktails: result.data.drinks, isLoading: false })
+                    })
+            } else {
+                this.setState({ cocktails: [] })
+            }
         } else {
             this.setState({ cocktails: []})
         }
@@ -237,7 +241,15 @@ export default class Cocktails extends Component {
                                     <CheckBox
                                         title='Cocktails'
                                         checked={this.state.cocktailsSelector}
-                                        onPress={() => this.setState({ cocktailsSelector: !this.state.cocktailsSelector })}
+                                        onPress={() => {
+                                            this.setState({ cocktailsSelector: !this.state.cocktailsSelector })
+                                        }}
+                                    />
+
+                                    <CheckBox
+                                        title='Recipes'
+                                        checked={this.state.recipesSelector}
+                                        onPress={() => this.setState({ recipesSelector: !this.state.recipesSelector })}
                                     />
 
                                     <CheckBox
@@ -246,11 +258,6 @@ export default class Cocktails extends Component {
                                         onPress={() => this.setState({ moviesSelector: !this.state.moviesSelector })}
                                     />
 
-                                    <CheckBox
-                                        title='Recipes'
-                                        checked={this.state.recipesSelector}
-                                        onPress={() => this.setState({ recipesSelector: !this.state.recipesSelector })}
-                                    />
                                 </View>
                                 
                             </View> :
